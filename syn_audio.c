@@ -116,10 +116,11 @@ void SYN_Audio_Init(void)
     GPIOPinTypePWM(GPIO_PORTB_BASE, GPIO_PIN_6);
 
     // 5) configure PWM clock & generator for desired PWM_FREQUENCY
-    PWMClockSet(PWM0_BASE, PWM_SYSCLK_DIV_1);
+    SysCtlPWMClockSet(SYSCTL_PWMDIV_1);
     uint32_t pwmClock = SYSCLK_HZ / 1U;
     pwm_period_counts = pwmClock / PWM_FREQUENCY;
     if (pwm_period_counts < 4) pwm_period_counts = 4; // safety
+    pwm_period_counts = 2000;
 
     PWMGenConfigure(PWM0_BASE, PWM_GEN_0, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);
     PWMGenPeriodSet(PWM0_BASE, PWM_GEN_0, pwm_period_counts);

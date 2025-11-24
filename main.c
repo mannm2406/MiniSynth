@@ -11,18 +11,20 @@
 #include "syn_uart.h"
 #include "syn_state.h"
 #include "syn_tables.h"
-#include "syn_audio.h"   // <-- new include for PWM + Timer0A audio
+#include "syn_audio.h"
 
 #define SYSCLK_HZ 80000000UL
 
+uint32_t freq;
 int main(void)
 {
     // =======================================================
     // 1. System Clock Setup (80 MHz from PLL)
     // =======================================================
-    SysCtlClockFreqSet((SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN |
-                        SYSCTL_USE_PLL | SYSCTL_CFG_VCO_480),
-                        SYSCLK_HZ);
+    SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
+
+    freq = SysCtlClockGet();
+
 
     // =======================================================
     // 2. Debug LED setup (optional)
@@ -30,6 +32,7 @@ int main(void)
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
     while (!SysCtlPeripheralReady(SYSCTL_PERIPH_GPIOF));
     GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);
+
 
     // =======================================================
     // 3. Initialize modules
@@ -44,7 +47,7 @@ int main(void)
     IntMasterEnable();
 
     // =======================================================
-    // 5. Main Loop — MCU sleeps, ISRs handle all work
+    // 5. Main Loop
     // =======================================================
     while (1)
     {
