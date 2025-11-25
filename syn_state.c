@@ -31,7 +31,7 @@ void SYN_ParseCommand(uint8_t byte)
     if (note < NUM_NOTES)
         note_active[note] = note_on;
 
-    // ====== LED DEBUG FEEDBACK ======
+    //LED DEBUG FEEDBACK
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
     GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3);
 
