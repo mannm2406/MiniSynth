@@ -6,7 +6,7 @@
 
 #define NUM_NOTES 8  // C4..C5 range
 
-// ===== ENUMERATIONS =====
+// ENUMERATIONS
 typedef enum {
     WAVE_SINE = 0,
     WAVE_SQUARE,
